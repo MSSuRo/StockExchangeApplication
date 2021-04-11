@@ -68,5 +68,26 @@ public class ApplicationErrorHandler extends ResponseEntityExceptionHandler {
 
 		return new ResponseEntity<>(errorbody, HttpStatus.CONFLICT);
 	}
+	@ExceptionHandler(EmptyManagerTableException.class)
+	public ResponseEntity<?> handleEmptyDataException(EmptyManagerTableException dte) {
+		Map<String, Object> errorbody = new LinkedHashMap<>();
+		errorbody.put("error", "Table is Empty");
+		errorbody.put("timestamp", LocalDateTime.now());
+		errorbody.put("details", dte.getMessage());
+
+		return new ResponseEntity<>(errorbody, HttpStatus.NOT_FOUND);
+	}
+	
+
+	@ExceptionHandler(ManagerNotFoundException.class)
+	public ResponseEntity<?> handleMissingManager(ManagerNotFoundException ine) {
+		Map<String, Object> errorbody = new LinkedHashMap<>();
+		errorbody.put("error", "deletion failed");
+		errorbody.put("timestamp", LocalDateTime.now());
+		errorbody.put("details", ine.getMessage());
+
+		return new ResponseEntity<>(errorbody, HttpStatus.NOT_FOUND);
+	}
+	
 	
 }
